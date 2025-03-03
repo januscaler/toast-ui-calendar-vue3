@@ -3,7 +3,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref,  watchEffect, onMounted, onBeforeUnmount, markRaw } from 'vue';
+import { ComponentTemplateRef,CalendarInfo } from './types/index'
+import { ref, watchEffect, onMounted, onBeforeUnmount, markRaw } from 'vue';
+import { Day, Month, TZDate, Week, EventObject, ExternalEventTypes, Options } from '@toast-ui/calendar';
 import Calendar_ from '@toast-ui/calendar';
 import { unrefElement } from '@vueuse/core'
 import { cloneDeep } from 'lodash';
@@ -42,7 +44,7 @@ const emits = defineEmits([
 
 const props = withDefaults(
   defineProps<{
-    view: string
+    view: 'day' | 'week' | 'month',
     useFormPopup?: boolean,
     useDetailPopup?: boolean,
     isReadOnly?: boolean,
@@ -53,8 +55,8 @@ const props = withDefaults(
     timezone: Record<string, any>,
     theme?: Record<string, any>,
     template?: Record<string, any>,
-    calendars: any[],
-    events: any[],
+    calendars: CalendarInfo[],
+    events: EventObject[],
     eventFilter?: (...args: any[]) => any,
   }>(),
   {
@@ -166,7 +168,7 @@ function addEvtListeners() {
   });
 }
 
-defineExpose({
+defineExpose<ComponentTemplateRef>({
   getRootElement() {
     // @ts-ignore
     return unrefElement(containerRef);

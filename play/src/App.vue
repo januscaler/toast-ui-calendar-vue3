@@ -11,8 +11,7 @@
 
 <script setup lang="ts">
 /** for local dev */
-import TuiCalendar, { Calendar } from '../../src';
-import moment from 'moment'
+import TuiCalendar, { ComponentTemplateRef, CalendarInfo, EventObject } from '../../src';
 /** for local artifacts test */
 // import TuiCalendar from '../../dist/lib/index.esm.js';
 // import '../../dist/style.css';
@@ -24,8 +23,8 @@ import 'toast-ui-calendar-vue3/styles.css'
 import { events } from './mock-data.js';
 import { computed, ref, onMounted } from 'vue';
 
-const calendarRef = ref<Calendar | undefined>()
-const myEvents = ref()
+const calendarRef = ref<ComponentTemplateRef | undefined>()
+const myEvents = ref<EventObject[]>([])
 const zones = [
   {
     timezoneName: "Asia/Kolkata",
@@ -39,9 +38,10 @@ const zones = [
   },
 ]
 const defaultTimezoneName = computed(() => zones[0].timezoneName)
-const calendars = computed(() => ([
+const calendars = computed<CalendarInfo[]>(() => ([
   {
     id: 'home',
+    color: 'red',
     name: 'Home',
     backgroundColor: '#69ff7061',
     borderColor: '#69ff7061',
@@ -50,6 +50,7 @@ const calendars = computed(() => ([
   {
     id: 'work',
     name: 'Work',
+    color: 'yellow',
     backgroundColor: '#2d9fff61',
     borderColor: '#2d9fff61',
     dragBackgroundColor: '#2d9fff61',
@@ -61,13 +62,14 @@ onMounted(() => {
 })
 
 const next = () => {
-  calendarRef.value.getInstance().next()
+  calendarRef.value?.getInstance().next()
 }
 const prev = () => {
-  calendarRef.value.getInstance().prev()
+  calendarRef.value?.getInstance().prev()
 }
-const viewOptions = ["day", "week", "month"];
-const currentView = ref("month");
+const viewOptions = ["day", "week", "month"] as const;
+type ViewOption = (typeof viewOptions)[number]; 
+const currentView = ref<ViewOption>("month");
 
 const toggle = () => {
   const currentIndex = viewOptions.findIndex((v) => v === currentView.value);
@@ -75,24 +77,23 @@ const toggle = () => {
   currentView.value = viewOptions[nextIndex];
 };
 
-function toDefaultTimeZone(event){
+function toDefaultTimeZone(event: EventObject) {
   return {
-    ...event,
-    start: event.start.local(defaultTimezoneName.value),
+    ...event, start: event.start.local(defaultTimezoneName.value),
     end: event.end.local(defaultTimezoneName.value)
   }
 }
 
-function updateEvent({ event, changes }) {
-  const updateIndex = myEvents.value.findIndex((innerEvent) => innerEvent.title === event.title)
-  const updatedEvent={
+function updateEvent({ event, changes }: { event: EventObject, changes: any }) {
+  const updateIndex = myEvents.value.findIndex((innerEvent: any) => innerEvent.title === event.title)
+  const updatedEvent = {
     ...event,
     ...changes
-  } 
+  }
   myEvents.value[updateIndex] = toDefaultTimeZone(updatedEvent)
 }
 
-function createEvent(event) {
+function createEvent(event: EventObject) {
   myEvents.value.push(toDefaultTimeZone(event))
 }
 
@@ -119,9 +120,6 @@ const options = computed(() => ({
 </script>
 
 <style scoped>
-.intro {
-  max-width: clamp(60em, 62vw);
-}
 
 .play-container {
   display: flex;
