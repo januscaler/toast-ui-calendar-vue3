@@ -1,16 +1,16 @@
 {
-	"name": "toast-ui-calendar-vue3",
-	"version": "0.3.0",
+	"name": "@genesistechcorp/calendar",
+	"version": "1.0.0",
 	"private": false,
-	"main": "./dist/lib/index.umd.js",
-	"module": "./dist/lib/index.esm.js",
+	"type": "module",
+	"main": "./dist/lib/index.esm.js",
 	"exports": {
 		".": {
 			"types": "./dist/types/index.d.ts",
 			"import": "./dist/lib/index.esm.js",
 			"require": "./dist/lib/index.umd.js"
 		},
-		"./styles.css": "./dist/toast-ui-calendar-vue3.css"
+		"./styles.css": "./dist/genCalendar.css"
 	},
 	"types": "./dist/types/index.d.ts",
 	"files": [
@@ -23,11 +23,10 @@
 		"dev": "vite ./play",
 		"serve": "pnpm dev",
 		"clean": "rimraf dist",
+		"prettify":"npx prettier . -w",
 		"build": "pnpm clean && npx cross-env ENABLE_TYPE_BUILD=1 vite build && vite-plugin-dts",
 		"build:watch": "pnpm clean && pnpm check:types && vite build --watch",
-		"check:types": "vue-tsc --noEmit",
-		"prepare": "husky install",
-		"auto:publish": "git checkout dev | pnpm build | git branch -D release | git checkout -b release | git merge dev | npm version patch | pnpm publish && git push --set-upstream origin release && git checkout dev && git merge release && git push origin dev"
+		"check:types": "vue-tsc --noEmit"
 	},
 	"dependencies": {
 		"@toast-ui/calendar": "^2.1.3",

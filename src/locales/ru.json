@@ -1,0 +1,17 @@
+{
+	"callSystem": {
+		"connectedToServer": "Подключен к нашему серверу",
+		"settingUpCall": "Настройка вашего звонка...",
+		"callStates": {
+			"hangingup": "зависание",
+			"hold": "на удерживании",
+			"calling": "Вызов",
+			"ringing": "звон"
+		},
+		"tooltips": {
+			"muteUnMute": "Отключить/включить звук",
+			"holdUnHold": "Удерживать/снимать",
+			"disconnect": "Отключить"
+		}
+	}
+}

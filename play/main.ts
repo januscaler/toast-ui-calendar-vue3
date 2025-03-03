@@ -1,25 +1,26 @@
-import { createApp } from "vue"
-import ElementPlus from 'element-plus'
-import VXETable from 'vxe-table'
-import 'vxe-table/lib/style.css'
-import 'element-plus/dist/index.css'
-
+import { createApp } from 'vue';
+import ElementPlus from 'element-plus';
+import VXETable from 'vxe-table';
+import 'vxe-table/lib/style.css';
+import 'element-plus/dist/index.css';
+import GenCalendar from '../src/index';
 // main
-;(async () => {
-  const apps = import.meta.glob('./src/*.vue')
-  const name = location.pathname.replace(/^\//, '') || 'App'
-  const file = apps[`./src/${name}.vue`]
-  if (!file) {
-    location.pathname = 'App'
-    return
-  }
+(async () => {
+	const apps = import.meta.glob('./src/*.vue');
+	const name = location.pathname.replace(/^\//, '') || 'App';
+	const file = apps[`./src/${name}.vue`];
+	if (!file) {
+		location.pathname = 'App';
+		return;
+	}
 
-  // @ts-ignore
-  const App = (await file()).default
-  const app = createApp(App)
+	// @ts-ignore
+	const App = (await file()).default;
+	const app = createApp(App);
 
-  app.use(VXETable)
-  app.use(ElementPlus)
+	app.use(VXETable);
+	app.use(ElementPlus);
+	app.use(GenCalendar);
 
-  app.mount('#play')
-})()
+	app.mount('#play');
+})();

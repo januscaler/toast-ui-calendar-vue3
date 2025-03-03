@@ -1,0 +1,22 @@
+{
+	"callSystem": {
+		"connectedToServer": "Connected to Our Server",
+		"settingUpCall": "Setting Up your call..",
+		"spyTitle": "Spying Ongoing Call",
+		"callStates": {
+			"hangingup": "hangingup",
+			"hold": "On Hold",
+			"calling": "Calling",
+			"ringing": "ringing",
+			"redial": "Call has ended you can redial the client."
+		},
+		"tooltips": {
+			"muteUnMute": "Mute/Unmute",
+			"muteUnMuteIncoming": "Mute/Unmute Incoming Audio",
+			"holdUnHold": "Hold/UnHold",
+			"disconnect": "Disconnect",
+			"redial": "Redial",
+			"switch": "Switch contact"
+		}
+	}
+}

@@ -1,114 +1,118 @@
-# @toast-ui/calendar（for vue3）
+# @genesistechcorp/calendar
 
-Simple `@toast-ui/calendar` wrapper for vue3, pr welcomes ~
+feature rich google like calendar component for vue3 built on top of toast-ui calendar
 
-<p align="center">
-  <!-- npm version -->
-  <a href="https://github.com/Lionad-Morotar/toast-ui-calendar-vue3"><img src="https://img.shields.io/npm/v/toast-ui-calendar-vue3.svg" alt="npm package"></a>
-  <!-- ci status -->
-  <a href="https://github.com/Lionad-Morotar/toast-ui-calendar-vue3/actions/workflows/ci-on-release.yml"><img src="https://github.com/Lionad-Morotar/toast-ui-calendar-vue3/actions/workflows/ci-on-release.yml/badge.svg?branch=release" alt="build status"></a>
-  <!-- license -->
-  <a href="https://github.com/Lionad-Morotar/toast-ui-calendar-vue3/blob/release/LICENSE"><img src="https://img.shields.io/github/license/Lionad-Morotar/toast-ui-calendar-vue3" alt="LICENSE"></a>
-</p>
+![Preview month](./docs/month.png)
+![Preview week](./docs/week.png)
 
-![Preview](./docs/preview.png)
+## 📸 Install
 
-## 📸 Run Dev
-
-1. `pnpm install`
-2. `pnpm serve`
+`npm install @genesistechcorp/calendar`
 
 ## 📸 Usage
 
 ```vue
 <template>
-  <div class="intro play-container">
-    <button @click="toggle">toggle</button>
-    <button @click="next">next</button>
-    <button @click="prev">prev</button>
-    <tui-calendar  class="my-calendar" ref="calendarRef" :view="currentView" @beforeCreateEvent="createEvent"
-      @beforeUpdateEvent="updateEvent" :use-form-popup="true" :use-detail-popup="true" :week="options.week"
-      :timezone="options.timezone" :calendars="calendars" :events="myEvents" />
-  </div>
+	<div class="play-container">
+		<button @click="toggle">toggle</button>
+		<button @click="next">next</button>
+		<button @click="prev">prev</button>
+		<gen-calendar
+			class="my-calendar"
+			ref="calendarRef"
+			:view="currentView"
+			@beforeCreateEvent="createEvent"
+			@beforeUpdateEvent="updateEvent"
+			:use-form-popup="true"
+			:use-detail-popup="true"
+			:week="options.week"
+			:timezone="options.timezone"
+			:calendars="calendars"
+			:events="myEvents"
+		/>
+	</div>
 </template>
 
 <script setup lang="ts">
-import TuiCalendar, { Calendar } from 'toast-ui-calendar-vue3';
-import 'toast-ui-calendar-vue3/styles.css'
+import { ComponentTemplateRef, CalendarInfo, EventObject }  from '@genesistechcorp/calendar';
+import  '@genesistechcorp/calendar/style.css';
 
 import { events } from './mock-data.js';
 import { computed, ref, onMounted } from 'vue';
 
-const calendarRef = ref<Calendar | undefined>()
-const myEvents = ref()
+const calendarRef = ref<ComponentTemplateRef | undefined>();
+const myEvents = ref<EventObject[]>([]);
 const zones = [
-  {
-    timezoneName: "Asia/Kolkata",
-    displayLabel: "Delhi",
-    tooltip: "India Standard Time (UTC+05:30)"
-  },
-  {
-    timezoneName: 'Asia/Seoul',
-    displayLabel: 'Seoul',
-    tooltip: 'Seoul Time',
-  },
-]
-const defaultTimezoneName = computed(() => zones[0].timezoneName)
-const calendars = computed(() => ([
-  {
-    id: 'home',
-    name: 'Home',
-    backgroundColor: '#69ff7061',
-    borderColor: '#69ff7061',
-    dragBackgroundColor: '#69ff7061',
-  },
-  {
-    id: 'work',
-    name: 'Work',
-    backgroundColor: '#2d9fff61',
-    borderColor: '#2d9fff61',
-    dragBackgroundColor: '#2d9fff61',
-  },
-]))
+	{
+		timezoneName: 'Asia/Kolkata',
+		displayLabel: 'Delhi',
+		tooltip: 'India Standard Time (UTC+05:30)',
+	},
+	{
+		timezoneName: 'Asia/Seoul',
+		displayLabel: 'Seoul',
+		tooltip: 'Seoul Time',
+	},
+];
+const defaultTimezoneName = computed(() => zones[0].timezoneName);
+const calendars = computed<CalendarInfo[]>(() => [
+	{
+		id: 'home',
+		color: 'red',
+		name: 'Home',
+		backgroundColor: '#69ff7061',
+		borderColor: '#69ff7061',
+		dragBackgroundColor: '#69ff7061',
+	},
+	{
+		id: 'work',
+		name: 'Work',
+		color: 'yellow',
+		backgroundColor: '#2d9fff61',
+		borderColor: '#2d9fff61',
+		dragBackgroundColor: '#2d9fff61',
+	},
+]);
 
 onMounted(() => {
-  myEvents.value = events
-})
+	myEvents.value = events;
+});
 
 const next = () => {
-  calendarRef.value.getInstance().next()
-}
+	calendarRef.value?.getInstance().next();
+};
 const prev = () => {
-  calendarRef.value.getInstance().prev()
-}
-const viewOptions = ["day", "week", "month"];
-const currentView = ref("month");
+	calendarRef.value?.getInstance().prev();
+};
+const viewOptions = ['day', 'week', 'month'] as const;
+type ViewOption = (typeof viewOptions)[number];
+const currentView = ref<ViewOption>('month');
 
 const toggle = () => {
-  const currentIndex = viewOptions.findIndex((v) => v === currentView.value);
-  const nextIndex = (currentIndex + 1) % viewOptions.length; // Corrected circular logic
-  currentView.value = viewOptions[nextIndex];
+	const currentIndex = viewOptions.findIndex((v) => v === currentView.value);
+	const nextIndex = (currentIndex + 1) % viewOptions.length; // Corrected circular logic
+	currentView.value = viewOptions[nextIndex];
 };
 
-function toDefaultTimeZone(event){
-  return {
-    ...event,
-    start: event.start.local(defaultTimezoneName.value),
-    end: event.end.local(defaultTimezoneName.value)
-  }
+function toDefaultTimeZone(event: EventObject) {
+	return {
+		...event,
+		start: event.start.local(defaultTimezoneName.value),
+		end: event.end.local(defaultTimezoneName.value),
+	};
 }
 
-function updateEvent({ event, changes }) {
-  const updateIndex = myEvents.value.findIndex((innerEvent) => innerEvent.title === event.title)
-  const updatedEvent={
-    ...event,
-    ...changes
-  } 
-  myEvents.value[updateIndex] = toDefaultTimeZone(updatedEvent)
+function updateEvent({ event, changes }: { event: EventObject; changes: any }) {
+	const updateIndex = myEvents.value.findIndex((innerEvent: any) => innerEvent.title === event.title);
+	const updatedEvent = {
+		...event,
+		...changes,
+	};
+	myEvents.value[updateIndex] = toDefaultTimeZone(updatedEvent);
 }
 
-function createEvent(event) {
-  myEvents.value.push(toDefaultTimeZone(event))
+function createEvent(event: EventObject) {
+	myEvents.value.push(toDefaultTimeZone(event));
 }
 
 /**
@@ -116,39 +120,39 @@ function createEvent(event) {
  * @see https://github.com/nhn/tui.calendar/blob/main/docs/en/apis/options.md
  */
 const options = computed(() => ({
-  timezone: {
-    zones,
-  },
-  week: {
-    showNowIndicator: true,
-    showTimezoneCollapseButton: false,
-    timezonesCollapsed: false,
-    hourStart: 0,
-    hourEnd: 24,
-    eventView: ['time'],
-    taskView: false,
-    collapseDuplicateEvents: true,
-  },
-}))
-
+	timezone: {
+		zones,
+	},
+	week: {
+		showNowIndicator: true,
+		showTimezoneCollapseButton: false,
+		timezonesCollapsed: false,
+		hourStart: 0,
+		hourEnd: 24,
+		eventView: ['time'],
+		taskView: false,
+		collapseDuplicateEvents: true,
+	},
+}));
 </script>
 
 <style scoped>
-.intro {
-  width: 100%;
-  height: 100vh;
+.play-container {
+	display: flex;
+	flex-direction: column;
+	padding: 8px;
 }
 </style>
 
 <style>
 .my-calendar {
-  width: 100%;
-  height: 100%;
+	border: solid 1px #eee;
+	border-radius: 4px;
+
+	.toastui-calendar-day-names {
+		border: none !important;
+	}
 }
 </style>
 
 ```
-
-## 📄 License
-
-MIT License
