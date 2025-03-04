@@ -1,17 +1,20 @@
-import GenCalendar from './calendar.vue';
+import TuiCalendar from './calendar.vue';
+import GenCalendar from './GenCalendar.vue';
 import Calendar, { Day, Month, TZDate, Week, EventObject, ExternalEventTypes, Options } from '@toast-ui/calendar';
 import { ComponentTemplateRef, CalendarInfo } from './types/index';
 import defaultTheme from './theme';
-import callsLocales from './locales/index';
+import { getTemplate } from './defaults/template'
+import calendarLocales from './locales/index';
 function createCalendar() {
 	return {
 		install(Vue: any) {
+			Vue.component('TuiCalendar', TuiCalendar);
 			Vue.component('GenCalendar', GenCalendar);
 		},
 	};
 }
 
-export { createCalendar, callsLocales };
+export { createCalendar, calendarLocales, getTemplate };
 
 export default createCalendar();
 

@@ -3,7 +3,7 @@ import ElementPlus from 'element-plus';
 import VXETable from 'vxe-table';
 import 'vxe-table/lib/style.css';
 import 'element-plus/dist/index.css';
-import GenCalendar from '../src/index';
+import { createCalendar } from '../src/index';
 // main
 (async () => {
 	const apps = import.meta.glob('./src/*.vue');
@@ -17,10 +17,11 @@ import GenCalendar from '../src/index';
 	// @ts-ignore
 	const App = (await file()).default;
 	const app = createApp(App);
+	const calendar = createCalendar()
 
 	app.use(VXETable);
 	app.use(ElementPlus);
-	app.use(GenCalendar);
+	app.use(calendar);
 
 	app.mount('#play');
 })();

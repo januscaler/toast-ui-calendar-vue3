@@ -4,7 +4,6 @@ import dts from 'vite-plugin-dts';
 import vue from '@vitejs/plugin-vue';
 import visualizer from 'rollup-plugin-visualizer';
 import figlet from 'figlet';
-
 import type { UserConfig } from 'vite';
 
 console.log(figlet.textSync('Vue3 TuiCalendar'));
