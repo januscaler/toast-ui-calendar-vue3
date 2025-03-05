@@ -1,13 +1,13 @@
 {
 	"compilerOptions": {
-		"target": "esnext",
+		"target": "ESNext",
 		"rootDir": ".",
 		"baseUrl": ".",
 		"outDir": "dist",
-		"module": "esnext",
+		"module": "ESNext",
 		"lib": ["ESNext", "DOM", "DOM.Iterable"],
 		"useDefineForClassFields": true,
-		"moduleResolution": "bundler",
+		"moduleResolution": "node",
 		"allowJs": true,
 		"strict": true,
 		"sourceMap": true,

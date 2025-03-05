@@ -5,6 +5,7 @@ import vue from '@vitejs/plugin-vue';
 import visualizer from 'rollup-plugin-visualizer';
 import figlet from 'figlet';
 import type { UserConfig } from 'vite';
+import vuetify from 'vite-plugin-vuetify';
 
 console.log(figlet.textSync('Vue3 TuiCalendar'));
 
@@ -50,6 +51,7 @@ export default defineConfig(({ mode }) => {
 			},
 		},
 		plugins: [
+			vuetify({ autoImport: true }),
 			vue(),
 			enableTypeBuild &&
 				dts({

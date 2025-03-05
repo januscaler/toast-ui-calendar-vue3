@@ -2,7 +2,7 @@ import Calendar from '@toast-ui/calendar';
 
 export interface ComponentTemplateRef {
 	getRootElement: () => HTMLElement | SVGElement | null | undefined;
-	getInstance: () => Calendar;
+	getInstance: () => InstanceType<typeof Calendar>;
 }
 
 export interface CalendarInfo {

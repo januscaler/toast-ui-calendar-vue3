@@ -10,7 +10,7 @@ import Calendar_ from '@toast-ui/calendar';
 import { unrefElement } from '@vueuse/core';
 import { cloneDeep } from 'lodash';
 
-import defaultTheme from './theme';
+import {generateTheme} from './defaults/theme';
 
 // @ts-ignore types/* is not exported
 import type { ViewType } from '@toast-ui/calendar/types/types/options.d.ts';
@@ -72,7 +72,7 @@ const props = withDefaults(
 			// @see https://timezonedb.com/time-zones
 			zones: [],
 		}),
-		theme: () => cloneDeep(defaultTheme),
+		theme: () => cloneDeep(generateTheme()),
 		template: () => ({}),
 		eventFilter: () => () => [],
 	},
