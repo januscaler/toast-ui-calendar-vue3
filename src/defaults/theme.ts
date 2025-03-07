@@ -10,7 +10,7 @@ export const generateTheme = () => {
 			today: { color: "#009688" },
 			gridSelection: {
 				backgroundColor: "rgba(19, 93, 230, 0.1)",
-				border: "1px solid #135de6",
+				border: "none",
 			},
 		},
 		month: {

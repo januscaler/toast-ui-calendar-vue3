@@ -51,8 +51,8 @@ import { computed } from 'vue';
 const props = defineProps<{
     modelValue: boolean,
     timeZones: any[],
-    primaryTimezone: string,
-    secondaryTimezone: string
+    primaryTimezone?: string,
+    secondaryTimezone?: string
 }>();
 defineEmits(['update:modelValue', 'update:primaryTimezone', 'update:secondaryTimezone']);
 

@@ -1,5 +1,5 @@
 <template>
-	<div class="tw:h-screen">
+	<div class="tw:h-screen tw:p-[30px]">
 		<gen-calendar style="height: 100%;" class="my-calendar" ref="calendarRef" />
 	</div>
 </template>
