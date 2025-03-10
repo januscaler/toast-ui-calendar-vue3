@@ -1,5 +1,7 @@
 <template>
-    <v-dialog :model-value="modelValue" @update:model-value="$emit('update:modelValue', $event)" max-width="600">
+    <v-dialog 
+    :theme="darkMode?'dark':'light'"
+    :model-value="modelValue" @update:model-value="$emit('update:modelValue', $event)" max-width="600">
         <template v-slot:activator="{ props: activatorProps }">
             <slot name="activator" v-bind="{ props: activatorProps }"></slot>
         </template>
@@ -41,6 +43,7 @@
 import { computed } from 'vue';
 
 const props = defineProps<{
+    darkMode: boolean,
     modelValue: boolean,
     timeZones: any[],
     primaryTimezone?: string,

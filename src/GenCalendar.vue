@@ -20,13 +20,9 @@
                 <v-select :bg-color="darkMode ? darkBgColor : lightBgColor" :theme="darkMode ? 'dark' : 'light'"
                     :base-color="darkMode ? darkTextColor : lightTextColor"
                     :style="{ color: darkMode ? darkTextColor : lightTextColor }" hide-details rounded density="compact"
-                    max-width="150px" 
-                 
-                    item-title="text"
-                    item-value="value"
-                    :model-value="currentView" @update:model-value="toggle" variant="outlined" flat
-                    :items="viewOptions"></v-select>
-                <GenCalendarSettings v-model:primary-timezone="primaryTimezone"
+                    max-width="150px" item-title="text" item-value="value" :model-value="currentView"
+                    @update:model-value="toggle" variant="outlined" flat :items="viewOptions"></v-select>
+                <GenCalendarSettings :dark-mode="darkMode" v-model:primary-timezone="primaryTimezone"
                     v-model:secondary-timezone="secondaryTimezone" :time-zones="allTimeZones" :save-form="saveForm"
                     v-model="modalValue">
                     <template v-slot:activator="{ props: activatorProps }">
@@ -36,17 +32,17 @@
                         </v-btn>
                     </template>
                 </GenCalendarSettings>
-
             </div>
             <tui-calendar class="my-calendar" ref="calendarRef" :view="currentView" @beforeCreateEvent="createEvent"
                 @beforeDeleteEvent="deleteEvent" @beforeUpdateEvent="updateEvent" :use-form-popup="true"
-                :use-detail-popup="true" :template="template":month="options.month" :week="options.week" :timezone="options.timezone"
-                :calendars="calendars" :events="myEvents" :theme="generatedTheme" />
+                :use-detail-popup="true" :template="template" :month="options.month" :week="options.week"
+                :timezone="options.timezone" :calendars="calendars" :events="myEvents" :theme="generatedTheme" />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import _ from 'lodash'
 import TuiCalendar from './calendar.vue'
 import { useI18n } from 'vue-i18n'
 import { ComponentTemplateRef, CalendarInfo, EventObject, getTemplate, generateTheme, TZDate } from './index';
@@ -55,9 +51,12 @@ import GenCalendarSettings from './GenCalendarSettings.vue'
 import { getFormattedTimeZones } from './utils/index'
 import mitt from 'mitt';
 import './styles/main.css'
-const { tm,t } = useI18n()
+const { tm, t } = useI18n()
+
+const emit=defineEmits(['update:events'])
 const props = withDefaults(defineProps<{
     darkMode?: boolean
+    events?:any[]
     darkSelectionColor?: string
     darkSelectionBorder?: string
     lightSelectionBorder?: string
@@ -68,6 +67,7 @@ const props = withDefaults(defineProps<{
     lightTextColor?: string
     calendars?: CalendarInfo[]
 }>(), {
+    events:()=>([]),
     calendars: () => ([{
         id: 'home',
         color: 'white',
@@ -84,7 +84,7 @@ const props = withDefaults(defineProps<{
         borderColor: '#025aa4',
         dragBackgroundColor: '#025aa4',
     }]),
-    darkMode: true,
+    darkMode: false,
     darkSelectionBorder: '1px solid grey',
     lightSelectionBorder: '1px solid grey',
     darkSelectionColor: '#ffffffc7',
@@ -113,7 +113,7 @@ const generatedTheme = computed(() => {
     return tempTheme
 })
 const calendarRef = ref<ComponentTemplateRef | undefined>();
-const template = ref(getTemplate({t,tm}))
+const template = ref(getTemplate({ t, tm }))
 const emitter = mitt();
 const modalValue = ref(false)
 const primaryTimezone = ref()
@@ -146,15 +146,15 @@ const options = computed(() => ({
     timezone: {
         zones: zones.value,
     },
-    month:{
-        dayNames:tm('dayNames')
+    month: {
+        dayNames: tm('dayNames')
     },
     week: {
         showNowIndicator: true,
         showTimezoneCollapseButton: false,
         timezonesCollapsed: false,
         hourStart: 0,
-        dayNames:tm('dayNames'),
+        dayNames: tm('dayNames'),
         hourEnd: 24,
         eventView: ['time'],
         taskView: false,
@@ -210,19 +210,19 @@ const currentSelection = computed(() => {
     }
 });
 const viewOptions = [
-        {
-            text:t('day'),
-            value:'day'
-        },
-        {
-            text:t('week'),
-            value:'week'
-        },
-        {
-            text:t('month'),
-            value:'month'
-        },
-    ] as const
+    {
+        text: t('day'),
+        value: 'day'
+    },
+    {
+        text: t('week'),
+        value: 'week'
+    },
+    {
+        text: t('month'),
+        value: 'month'
+    },
+] as const
 
 const currentView = ref<string>('week');
 
@@ -254,6 +254,14 @@ function deleteEvent(event: EventObject) {
     const deleteIndex = myEvents.value.findIndex((innerEvent: any) => innerEvent.title === event.title);
     myEvents.value.splice(deleteIndex, 1);
 }
+onMounted(()=>{
+    myEvents.value=props.events
+})
+watch(myEvents,(internalEvents,oldInternalEvents)=>{
+    if(!_.isEqual(internalEvents,oldInternalEvents)) {
+        emit('update:events',internalEvents)
+    }
+})
 
 </script>
 
