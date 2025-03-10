@@ -1,17 +1,49 @@
 {
-	"callSystem": {
-		"connectedToServer": "Подключен к нашему серверу",
-		"settingUpCall": "Настройка вашего звонка...",
-		"callStates": {
-			"hangingup": "зависание",
-			"hold": "на удерживании",
-			"calling": "Вызов",
-			"ringing": "звон"
-		},
-		"tooltips": {
-			"muteUnMute": "Отключить/включить звук",
-			"holdUnHold": "Удерживать/снимать",
-			"disconnect": "Отключить"
-		}
-	}
+	"today": "Сегодня",
+	"day": "День",
+	"week": "Неделя",
+	"month": "Месяц",
+	"dayNames": [
+		"Пн",
+		"Вт",
+		"Ср",
+		"Чт",
+		"Пт",
+		"Сб",
+		"Вс"
+	],
+	"popup":{
+		"edit": "Изменить",
+		"delete": "Удалить",
+		"titlePlaceholder": "Название",
+		"locationPlaceholder": "Место",
+		"startDatePlaceholder": "Дата начала",
+		"endDatePlaceholder": "Дата окончания",
+		"popupSave": "сохранить",
+		"popupUpdate": "обновить",
+		"isAllDay": "Весь день",
+		"stateBusy": "Занят",
+		"stateFree": "Свободен",
+		"save": "Сохранить",
+		"update": "Обновить"
+	  },
+	"settings": {
+		"title": "Настройки",
+		"primaryTimezone": "Основной часовой пояс",
+		"secondaryTimezone": "Дополнительный часовой пояс"
+	},
+	"months": [
+		"Январь",
+		"Февраль",
+		"Март",
+		"Апрель",
+		"Май",
+		"Июнь",
+		"Июль",
+		"Август",
+		"Сентябрь",
+		"Октябрь",
+		"Ноябрь",
+		"Декабрь"
+	]
 }

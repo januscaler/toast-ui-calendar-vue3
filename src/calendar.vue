@@ -45,7 +45,7 @@ const emits = defineEmits([
 
 const props = withDefaults(
 	defineProps<{
-		view: 'day' | 'week' | 'month';
+		view: 'day' | 'week' | 'month'|string;
 		useFormPopup?: boolean;
 		useDetailPopup?: boolean;
 		isReadOnly?: boolean;

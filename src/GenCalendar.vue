@@ -1,12 +1,11 @@
 <template>
-    <div 
-    :style="{'--timezone-text-color': (darkMode ? darkTextColor : lightTextColor)}"
-    class="tw:h-[inherit] " :class="{ 'dark': props.darkMode, }">
+    <div :style="{ '--timezone-text-color': (darkMode ? darkTextColor : lightTextColor) }" class="tw:h-[inherit] "
+        :class="{ 'dark': props.darkMode, }">
         <div :style="{ backgroundColor: props.darkMode ? props.darkBgColor : props.lightBgColor }"
             class="tw:flex tw:flex-col tw:w-full tw:h-[inherit] ">
             <div class="tw:flex tw:items-center tw:p-[10px] tw:gap-x-[10px]">
                 <v-btn :style="{ color: darkMode ? darkTextColor : lightTextColor }" variant="outlined" flat
-                    @click="goToToday" rounded style="outlined">Today</v-btn>
+                    @click="goToToday" rounded style="outlined">{{ $t('today') }}</v-btn>
                 <v-btn @click="prev" elevation="0" color="transparent" size="30px" icon>
                     <v-icon :style="{ color: darkMode ? darkTextColor : lightTextColor }" size="22px"
                         icon="fas fa-chevron-left" />
@@ -16,12 +15,16 @@
                         class="tw:dark:text-white tw:text-black" icon="fas fa-chevron-right" />
                 </v-btn>
                 <p class="tw:w-[120px]" :style="{ color: darkMode ? darkTextColor : lightTextColor }">
-                    {{
-                        currentSelection }}</p>
+                    {{ currentSelection }}
+                </p>
                 <v-select :bg-color="darkMode ? darkBgColor : lightBgColor" :theme="darkMode ? 'dark' : 'light'"
                     :base-color="darkMode ? darkTextColor : lightTextColor"
                     :style="{ color: darkMode ? darkTextColor : lightTextColor }" hide-details rounded density="compact"
-                    max-width="120px" :model-value="currentView" @update:model-value="toggle" variant="outlined" flat
+                    max-width="150px" 
+                 
+                    item-title="text"
+                    item-value="value"
+                    :model-value="currentView" @update:model-value="toggle" variant="outlined" flat
                     :items="viewOptions"></v-select>
                 <GenCalendarSettings v-model:primary-timezone="primaryTimezone"
                     v-model:secondary-timezone="secondaryTimezone" :time-zones="allTimeZones" :save-form="saveForm"
@@ -37,7 +40,7 @@
             </div>
             <tui-calendar class="my-calendar" ref="calendarRef" :view="currentView" @beforeCreateEvent="createEvent"
                 @beforeDeleteEvent="deleteEvent" @beforeUpdateEvent="updateEvent" :use-form-popup="true"
-                :use-detail-popup="true" :template="template" :week="options.week" :timezone="options.timezone"
+                :use-detail-popup="true" :template="template":month="options.month" :week="options.week" :timezone="options.timezone"
                 :calendars="calendars" :events="myEvents" :theme="generatedTheme" />
         </div>
     </div>
@@ -45,12 +48,14 @@
 
 <script setup lang="ts">
 import TuiCalendar from './calendar.vue'
+import { useI18n } from 'vue-i18n'
 import { ComponentTemplateRef, CalendarInfo, EventObject, getTemplate, generateTheme, TZDate } from './index';
 import { computed, onMounted, ref, watch } from 'vue';
 import GenCalendarSettings from './GenCalendarSettings.vue'
 import { getFormattedTimeZones } from './utils/index'
 import mitt from 'mitt';
 import './styles/main.css'
+const { tm,t } = useI18n()
 const props = withDefaults(defineProps<{
     darkMode?: boolean
     darkSelectionColor?: string
@@ -63,7 +68,7 @@ const props = withDefaults(defineProps<{
     lightTextColor?: string
     calendars?: CalendarInfo[]
 }>(), {
-    calendars:()=>([{
+    calendars: () => ([{
         id: 'home',
         color: 'white',
         name: 'Home',
@@ -79,7 +84,7 @@ const props = withDefaults(defineProps<{
         borderColor: '#025aa4',
         dragBackgroundColor: '#025aa4',
     }]),
-    darkMode: false,
+    darkMode: true,
     darkSelectionBorder: '1px solid grey',
     lightSelectionBorder: '1px solid grey',
     darkSelectionColor: '#ffffffc7',
@@ -108,7 +113,7 @@ const generatedTheme = computed(() => {
     return tempTheme
 })
 const calendarRef = ref<ComponentTemplateRef | undefined>();
-const template = ref(getTemplate())
+const template = ref(getTemplate({t,tm}))
 const emitter = mitt();
 const modalValue = ref(false)
 const primaryTimezone = ref()
@@ -141,11 +146,15 @@ const options = computed(() => ({
     timezone: {
         zones: zones.value,
     },
+    month:{
+        dayNames:tm('dayNames')
+    },
     week: {
         showNowIndicator: true,
         showTimezoneCollapseButton: false,
         timezonesCollapsed: false,
         hourStart: 0,
+        dayNames:tm('dayNames'),
         hourEnd: 24,
         eventView: ['time'],
         taskView: false,
@@ -187,8 +196,9 @@ emitter.on('date-move', (value: any) => {
         selectedDateState.value = new TZDate(selectedDateState.value?.addDate(value * 7))
     }
 })
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
 const currentSelection = computed(() => {
+    const months = tm('months')
     if (currentView.value === 'day') {
         return `${months[selectedDateState.value?.getMonth()!]} ${selectedDateState.value?.getDate()}, ${selectedDateState.value?.getFullYear()}`
     }
@@ -199,9 +209,22 @@ const currentSelection = computed(() => {
         return `${months[selectedDateState.value?.getMonth()!]} ${selectedDateState.value?.getFullYear()}`
     }
 });
-const viewOptions = ['day', 'week', 'month'] as const;
-type ViewOption = (typeof viewOptions)[number];
-const currentView = ref<ViewOption>('week');
+const viewOptions = [
+        {
+            text:t('day'),
+            value:'day'
+        },
+        {
+            text:t('week'),
+            value:'week'
+        },
+        {
+            text:t('month'),
+            value:'month'
+        },
+    ] as const
+
+const currentView = ref<string>('week');
 
 const toggle = (newOption) => {
     currentView.value = newOption
@@ -234,20 +257,20 @@ function deleteEvent(event: EventObject) {
 
 </script>
 
-
-
 <style>
-.toastui-calendar-timezone-labels-slot{
-    top:0px !important;
-    background-color:unset !important;
+.toastui-calendar-timezone-labels-slot {
+    top: 0px !important;
+    background-color: unset !important;
     border-bottom: none !important;
     color: var(--timezone-text-color);
 }
-.toastui-calendar-timezone-labels-slot .toastui-calendar-timegrid-timezone-label{
-    background-color:unset !important;
+
+.toastui-calendar-timezone-labels-slot .toastui-calendar-timegrid-timezone-label {
+    background-color: unset !important;
     border-right: none !important;
 }
-.toastui-calendar-template-weekDayName{
+
+.toastui-calendar-template-weekDayName {
     display: flex;
     justify-content: center;
 }

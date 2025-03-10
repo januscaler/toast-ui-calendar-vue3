@@ -1,22 +1,49 @@
 {
-	"callSystem": {
-		"connectedToServer": "Connected to Our Server",
-		"settingUpCall": "Setting Up your call..",
-		"spyTitle": "Spying Ongoing Call",
-		"callStates": {
-			"hangingup": "hangingup",
-			"hold": "On Hold",
-			"calling": "Calling",
-			"ringing": "ringing",
-			"redial": "Call has ended you can redial the client."
-		},
-		"tooltips": {
-			"muteUnMute": "Mute/Unmute",
-			"muteUnMuteIncoming": "Mute/Unmute Incoming Audio",
-			"holdUnHold": "Hold/UnHold",
-			"disconnect": "Disconnect",
-			"redial": "Redial",
-			"switch": "Switch contact"
-		}
-	}
+	"today": "Today",
+	"day": "Day",
+	"week": "Week",
+	"month": "Month",
+	"dayNames": [
+		"Mon",
+		"Tue",
+		"Wed",
+		"Thu",
+		"Fri",
+		"Sat",
+		"Sun"
+	],
+	"settings": {
+		"title": "Settings",
+		"primaryTimezone": "Primary Timezone",
+		"secondaryTimezone": "Secondary Timezone"
+	},
+	"popup": {
+		"edit": "Edit",
+		"delete": "Delete",
+		"titlePlaceholder": "Title",
+		"locationPlaceholder": "Location",
+		"startDatePlaceholder": "Start Date",
+		"endDatePlaceholder": "End Date",
+		"popupSave": "save",
+		"popupUpdate": "update",
+		"isAllDay":"All Day",
+		"stateBusy":"Busy",
+		"stateFree":"Free",
+		"save":"Save",
+		"update":"Update"
+	},
+	"months": [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December"
+	]
 }
