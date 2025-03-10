@@ -34,8 +34,8 @@ feature rich google like calendar component for vue3 built on top of toast-ui ca
 </template>
 
 <script setup lang="ts">
-import { ComponentTemplateRef, CalendarInfo, EventObject }  from '@genesistechcorp/calendar';
-import  '@genesistechcorp/calendar/style.css';
+import { ComponentTemplateRef, CalendarInfo, EventObject } from '@genesistechcorp/calendar';
+import '@genesistechcorp/calendar/style.css';
 
 import { events } from './mock-data.js';
 import { computed, ref, onMounted } from 'vue';
@@ -154,5 +154,4 @@ const options = computed(() => ({
 	}
 }
 </style>
-
 ```

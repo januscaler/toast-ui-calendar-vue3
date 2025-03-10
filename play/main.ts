@@ -3,8 +3,8 @@ import ElementPlus from 'element-plus';
 import VXETable from 'vxe-table';
 import 'vxe-table/lib/style.css';
 import 'element-plus/dist/index.css';
-import { createCalendar,calendarLocales } from '../src/index';
-import { createI18n } from 'vue-i18n'
+import { createCalendar, calendarLocales } from '../src/index';
+import { createI18n } from 'vue-i18n';
 
 // main
 (async () => {
@@ -17,16 +17,15 @@ import { createI18n } from 'vue-i18n'
 	}
 
 	const i18n = createI18n({
-		messages:calendarLocales,
-	})
+		messages: calendarLocales,
+	});
 
 	// @ts-ignore
 	const App = (await file()).default;
 	const app = createApp(App);
-	const calendar = createCalendar()
+	const calendar = createCalendar();
 
-
-	app.use(i18n)
+	app.use(i18n);
 	app.use(VXETable);
 	app.use(ElementPlus);
 	app.use(calendar);

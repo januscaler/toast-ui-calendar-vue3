@@ -3,15 +3,7 @@
 	"day": "Day",
 	"week": "Week",
 	"month": "Month",
-	"dayNames": [
-		"Mon",
-		"Tue",
-		"Wed",
-		"Thu",
-		"Fri",
-		"Sat",
-		"Sun"
-	],
+	"dayNames": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
 	"settings": {
 		"title": "Settings",
 		"primaryTimezone": "Primary Timezone",
@@ -26,24 +18,11 @@
 		"endDatePlaceholder": "End Date",
 		"popupSave": "save",
 		"popupUpdate": "update",
-		"isAllDay":"All Day",
-		"stateBusy":"Busy",
-		"stateFree":"Free",
-		"save":"Save",
-		"update":"Update"
+		"isAllDay": "All Day",
+		"stateBusy": "Busy",
+		"stateFree": "Free",
+		"save": "Save",
+		"update": "Update"
 	},
-	"months": [
-		"January",
-		"February",
-		"March",
-		"April",
-		"May",
-		"June",
-		"July",
-		"August",
-		"September",
-		"October",
-		"November",
-		"December"
-	]
+	"months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 }

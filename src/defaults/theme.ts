@@ -2,15 +2,15 @@ import { cloneDeep } from 'lodash';
 export const generateTheme = () => {
 	const defaultTheme = {
 		common: {
-			border: "1px solid #ddd",
-			backgroundColor: "white",
-			holiday: { color: "#f54f3d" },
-			saturday: { color: "#135de6" },
-			dayName: { color: "#333" },
-			today: { color: "#009688" },
+			border: '1px solid #ddd',
+			backgroundColor: 'white',
+			holiday: { color: '#f54f3d' },
+			saturday: { color: '#135de6' },
+			dayName: { color: '#333' },
+			today: { color: '#009688' },
 			gridSelection: {
-				backgroundColor: "rgba(19, 93, 230, 0.1)",
-				border: "none",
+				backgroundColor: 'rgba(19, 93, 230, 0.1)',
+				border: 'none',
 			},
 		},
 		month: {
@@ -62,7 +62,6 @@ export const generateTheme = () => {
 			futureTime: { color: '#333' },
 			gridSelection: { color: '#135de6' },
 		},
-	}
+	};
 	return cloneDeep(defaultTheme);
-}
-
+};

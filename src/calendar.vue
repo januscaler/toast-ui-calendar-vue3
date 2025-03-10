@@ -10,7 +10,7 @@ import Calendar_ from '@toast-ui/calendar';
 import { unrefElement } from '@vueuse/core';
 import { cloneDeep } from 'lodash';
 
-import {generateTheme} from './defaults/theme';
+import { generateTheme } from './defaults/theme';
 
 // @ts-ignore types/* is not exported
 import type { ViewType } from '@toast-ui/calendar/types/types/options.d.ts';
@@ -45,7 +45,7 @@ const emits = defineEmits([
 
 const props = withDefaults(
 	defineProps<{
-		view: 'day' | 'week' | 'month'|string;
+		view: 'day' | 'week' | 'month' | string;
 		useFormPopup?: boolean;
 		useDetailPopup?: boolean;
 		isReadOnly?: boolean;
